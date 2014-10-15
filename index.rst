@@ -5,27 +5,36 @@
 
 getting started pytesting
 =========================
+Frank Tobia
 
 
-Pytest features
----------------
-- assertions using built-in `assert` statement
-- helpful tracebacks
-- fixtures
-- parametrization
-- "slice and dice" your test suites
-- built-in debugger
+Get the code
+------------
+- Follow along online:
+
+  - https://github.com/ftobia/getting-started-pytesting/blob/master/index.rst
+
+- Slides:
+
+  - https://github.com/ftobia/getting-started-pytesting/
+
+- Code:
+
+  - https://github.com/ftobia/getting-started-pytesting-code/
+
+- Pytest documentation:
+
+  - http://pytest.org/
 
 
 Let's get started
 -----------------
-First let's check out my git repo (for later):
+After https://github.com/ftobia/getting-started-pytesting-code/ has been checked out:
 
 .. code-block:: none
 
-  $ git clone git@github.com:ftobia/{franks-cool-repo}.git
-  $ cd {franks-cool-repo}
-  $ git checkout tag-1
+  $ cd getting-started-pytesting-code
+  $ git checkout beginning
 
 Now we'll make a virtual environment and install pytest.
 
@@ -34,7 +43,19 @@ Now we'll make a virtual environment and install pytest.
   $ virtualenv env
   $ source env/bin/activate
   (env)$ pip install pytest
+
+
+Try running pytest
+------------------
+
+Let's try running pytest:
+
+.. code-block:: none
+
   (env)$ py.test
+
+- We haven't written any tests yet.
+- Thus, we expect no tests will run.
 
 
 What just happened?
@@ -47,191 +68,185 @@ What just happened?
 
   - pytest found and ran a bunch of tests in the virtualenv
 
-- Solution:
+- Solution(s):
 
   - "ignore directory" option
+  - specify test locations explicitly
 
 
-(Look at the fancy output)
---------------------------
-
-Let's write some actual code
-----------------------------
-.. code-block:: none
-
-  (env)$ git checkout -f tag-3
-
-- Simplest possible test.
-- Expected:
-
-  - pytest is set up properly
-  - our module is importable
-
-
-First, write a failing test
----------------------------
-.. code-block:: none
-
-  (env)$ git checkout -f tag-4
-
-- "Test-Driven Development (TDD)"
-
-
-Then, make the test pass
+"Simplest possible test"
 ------------------------
-.. code-block:: none
 
-  (env)$ git checkout -f tag-5
-
-- "Red / green refactoring"
-
-
-Rinse, repeat
--------------
-- Write code to make the test fail
-- Write enough code to make it pass
-
-.. code-block:: none
-
-  (env)$ git checkout -f tag-6  # Fail.
-  (env)$ git checkout -f tag-7  # Pass.
+- Let's write a simple test.
+- What is a test?
+- Anything that looks like a test.
 
 
-Keep writing tests
-------------------
-- Let's make it possible to "complete" todo items
-- Failing test, again:
+Code example: bunch
+-------------------
 
-.. code-block:: none
+An object that acts like both an object and a dictionary.
 
-  (env)$ git checkout -f tag-8
+Something like:
 
-- Simplest thing to make it pass, again:
+.. code-block:: python
+
+  >>> foo = Bunch()
+  >>> foo['bar'] = 'baz'
+  >>> foo.bar
+  'baz'
+
+Finished code:
 
 .. code-block:: none
 
-  (env)$ git checkout -f tag-9
+  (env)$ git checkout bunch
 
 
-Aside: selecting tests
-----------------------
+Writing some tests for bunch
+----------------------------
+
+- Start with simplest possible test.
+
+  - Make sure pytest is set up and our module is importable.
+
+- Then keep writing tests.
+- For every case you can think of.
+
+
+Feature: selecting tests
+------------------------
 - Run individual tests with the `-k` flag
 
 .. code-block:: none
 
-  (env)$ py.test -k add_item -vv
-  (env)$ py.test -k add -vv
-  (env)$ py.test -k complete -vv
-  (env)$ py.test -k "not add" -vv
+  (env)$ py.test -k attr -vv
+  (env)$ py.test -k del -vv
+  (env)$ py.test -k "not attr" -vv
 
 
-New feature: completed items
-----------------------------
-- Let's keep track of completed items
-- Failing test:
+Feature: test fixtures
+----------------------
+- "A test fixture is something used to consistently test some item, device, or piece of software."
 
-.. code-block:: none
+  - Wikipedia
 
-  (env)$ git checkout -f tag-10
-
-- A test should test one thing
-- Note the code duplication
-- Note the test similarity
-- We'll fix that in a minute
+- Set up what a test needs to run.
+- Ensure tests are independent.
+- Reduce duplication, improve organization.
 
 
-New feature: completed items
-----------------------------
-- Make them pass
+Code example: chunkify
+----------------------
+- Given a list of items, and a size,
+- return sublists of the given size.
 
-.. code-block:: none
+For example:
 
-  (env)$ git checkout -f tag-11
+- Input:
 
-- Now let's work on our tests some more
+  - [1, 2, 3, 4, 5]
+  - 2
 
+- Output:
 
-More tests
-----------
-- Write a few more tests
+  - [[1, 2], [3, 4], [5]]
 
-  - (these ones will pass)
+.. nextslide::
+
+Finished code:
 
 .. code-block:: none
 
-  (env)$ git checkout -f tag-12
+  (env)$ git checkout chunkify
 
-- What to do about the duplication?
-- Two tools:
+Side note:
 
-  - Fixtures
-  - Parametrization
-
-
-Fixtures
---------
-- Set up / tear down
-- Ensure a particular state
-- Ensure a resource
-
-  - If it's shared, make sure it's clean
-
-First try:
-
-.. code-block:: none
-
-  (env)$ git checkout -f tag-13
-
-Second try:
-
-.. code-block:: none
-
-  (env)$ git checkout -f tag-14
+  - Separate directory for tests.
+  - Install our library so it's on PYTHONPATH.
 
 
-Parametrization
----------------
-- Run a test multiple times w/ multiple parameters
-- Greatly reduces code duplication
-- Tests are easier to read
-- Success / failure reporting is maintained
+Feature: parametrization
+------------------------
+- Run the same test
+- multiple times
+- with different parameters
 
-.. code-block:: none
+  - (inputs, outputs, etc)
 
-  (env)$ git checkout -f tag-15
+- Benefits:
 
-Contrived example:
-
-.. code-block:: none
-
-  (env)$ git checkout -f tag-16
+  - Reduce duplication.
+  - Improve readability.
 
 
-Custom markers
---------------
+Feature: Custom markers
+-----------------------
 - Can "tag" and group tests
-- Run them separately
-- Or change the test run based on them (e.g. parametrize)
+- Run groups of tests separately with `-m` option
+- Or change the test run based on them
+
+  - e.g. parametrize is a custom marker
+
+Finished code:
 
 .. code-block:: none
 
-  (env)$ git checkout -f tag-17
+  (env)$ git checkout arbitrary-markers
 
 
-Other cool stuff
-----------------
-- debugger
+Feature: built-in debugger
+--------------------------
+- Start debugging at the point an assertion fails.
+- `--pdb` command-line flag
+- Actually just pdb, Python's debugger.
+- Good talk on pdb:
 
-  - `--pdb`
+  - http://pyvideo.org/video/2673/in-depth-pdb
 
+
+Feature: traceback control
+--------------------------
 - traceback control
 
   - `--tb (long/short/line/native/no)`
 
-- lots of extensions / plugins
-- works w/ unittest.TestCase
+
+Code example: is_listy
+----------------------
+- Does an object "look like" a list?
+- For use in code like:
+
+.. code-block:: python
+
+  if not is_listy(x):
+    return [x]  # Return a singleton.
+  else:
+    return x
+
+Finished code:
+
+.. code-block:: none
+
+  (env)$ git checkout is_listy
+
+
+Feature: parametrized fixtures
+------------------------------
+- Run a test that includes a fixture multiple times.
+- Tests need not be aware of their re-running.
+
+
+Feature: customizability w/ plugins
+-----------------------------------
+- Many plugins available.
+
+  - http://pytest.org/latest/plugins.html#extplugins
+
+- "Well-specified hooks" for writing your own.
+
+  - http://pytest.org/latest/plugins.html#well-specified-hooks
 
 
 Questions?
 ==========
-
