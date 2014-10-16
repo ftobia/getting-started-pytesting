@@ -29,10 +29,11 @@ Get the code
 
 Let's get started
 -----------------
-After https://github.com/ftobia/getting-started-pytesting-code/ has been checked out:
+Clone the code:
 
 .. code-block:: none
 
+  $ git clone https://github.com/ftobia/getting-started-pytesting-code/
   $ cd getting-started-pytesting-code
   $ git checkout beginning
 
@@ -62,16 +63,16 @@ What just happened?
 -------------------
 - Expected:
 
-  - no tests run
+  - No tests will run.
 
 - Actual:
 
-  - pytest found and ran a bunch of tests in the virtualenv
+  - Pytest found and ran a bunch of tests in the virtualenv.
 
 - Solution(s):
 
-  - "ignore directory" option
-  - specify test locations explicitly
+  - "Ignore directory" option.
+  - Specify test locations explicitly.
 
 
 "Simplest possible test"
@@ -165,12 +166,23 @@ Side note:
   - Separate directory for tests.
   - Install our library so it's on PYTHONPATH.
 
+.. code-block:: none
+
+  (env)$ git checkout install
+  (env)$ pip install -e .
+
+
+Feature: exception helper
+-------------------------
+- Assert that an exception was raised.
+- Use the `pytest.raises` context manager.
+
 
 Feature: parametrization
 ------------------------
-- Run the same test
-- multiple times
-- with different parameters
+- Run the same test,
+- multiple times,
+- with different parameters.
 
   - (inputs, outputs, etc)
 
@@ -180,11 +192,11 @@ Feature: parametrization
   - Improve readability.
 
 
-Feature: Custom markers
+Feature: custom markers
 -----------------------
-- Can "tag" and group tests
-- Run groups of tests separately with `-m` option
-- Or change the test run based on them
+- Can "tag" and group tests.
+- Run groups of tests separately with `-m` option.
+- Change the test run based on markers.
 
   - e.g. parametrize is a custom marker
 
@@ -198,7 +210,7 @@ Finished code:
 Feature: built-in debugger
 --------------------------
 - Start debugging at the point an assertion fails.
-- `--pdb` command-line flag
+- `--pdb` command-line flag.
 - Actually just pdb, Python's debugger.
 - Good talk on pdb:
 
@@ -207,7 +219,8 @@ Feature: built-in debugger
 
 Feature: traceback control
 --------------------------
-- traceback control
+- How much test output do you want to see?
+- Command-line flag:
 
   - `--tb (long/short/line/native/no)`
 
